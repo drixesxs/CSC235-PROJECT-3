@@ -1,0 +1,5 @@
+1) Take input for the number
+2) If the first digit does not indicate zero occurence of that digit in the number, print it is not a self-describing number 
+3) check the next number
+4) If the first digit indicates no occurence of that digit in the number and 
+the second digit indicates 1 occurence of that digit in the number and so on.. print it is a self-describing number

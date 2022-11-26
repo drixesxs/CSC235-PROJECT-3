@@ -1,0 +1,8 @@
+1) Read the first line after the number of files N to be read
+2) split the input into two by separating them using the space as a delimiter
+3) save the file name and ID accordingly
+4) repeat the procedure for the remaining files
+5) check if any file names are the same:
+6) if same, delete the file with the largest ID
+7) if none are same keep all files
+8) for each test case print the ID of the files that are kept.
