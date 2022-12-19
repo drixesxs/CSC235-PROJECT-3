@@ -2,48 +2,61 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main () 
-{
-    int test_cases, number_of_files;
-    char fileName_Id[100010];
-    int fileId[100][100000];
-    char fileName[100][10];
+#define MAX_FILENAME_LENGTH 10
+#define MAX_FILES 100000
+
+struct File {
+  char name[MAX_FILENAME_LENGTH + 1];
+  int id;
+};
+
+int compare_files(const void* a, const void* b) {
+  return ((struct File*)a)->id - ((struct File*)b)->id;
+}
+
+int main() {
 
     FILE *files_in;
     files_in = fopen("files.txt", "r");
 
+    /*If file is not found or the file can't be read
+     the funtion returns NULL, check if the file opening 
+    function returns NULL, print the error to the user 
+    and stop running the code*/ 
     if (files_in == NULL) 
     {
         printf("Error! File cannot be opened Check if file path is correct or if file exists.");
         exit(1);
     }
 
+    // Read the number of test cases
+    int T;
+    fscanf(files_in, "%d", &T);
 
-    fscanf (files_in, "%i", &test_cases);
-    printf("%i", test_cases);
+    for (int t = 0; t < T; t++) {
+      // Read the number of files
+      int N;
+      fscanf(files_in, "%d", &N);
 
-    fscanf(files_in, "%i", &number_of_files);
-    printf("\n%i", number_of_files);
-    
-    int line_counter = 1;
-    int i = 0;
-    while (fgets(fileName_Id, 100010, files_in)) 
-    {
-        line_counter++;
+      // Create an array to store the files
+      struct File files[MAX_FILES];
 
-        if (line_counter > 2) 
-        {
-            printf("\n%s", fileName_Id);
-            char *token = strtok(fileName_Id, " ");
-            printf("\n%s", token);
-            //strcpy(fileName[i], token);
-            //printf("Array of filenames %s", fileName);
+      for (int i = 0; i < N; i++) {
+        // Read the file name and ID
+        fscanf(files_in, "%s%d", files[i].name, &files[i].id);
+      }
 
+      // Sort the files in increasing order by ID
+      qsort(files, N, sizeof(struct File), compare_files);
+
+      // Print the IDs of the surviving files
+      for (int i = 0; i < N; i++) {
+        if (i == 0 || strcmp(files[i].name, files[i - 1].name) != 0) {
+          printf("%d ", files[i].id);
         }
-
-        i++;
-
+      }
+      printf("\n");
     }
 
-
+    return 0;
 }
